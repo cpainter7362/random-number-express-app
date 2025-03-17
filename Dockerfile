@@ -1,8 +1,7 @@
 FROM node:22-alpine3.21
 
-# Use non-root user for better security
-USER node
-WORKDIR /home/node
+# Set working directory
+WORKDIR /app
 
 # Copy package.json files first for better caching
 COPY package*.json ./
@@ -12,6 +11,9 @@ RUN npm install
 
 # Copy server code
 COPY server.js ./
+
+# Use non-root user for better security (switch after files are copied/installed)
+USER node
 
 # Set the entrypoint to run the server
 ENTRYPOINT ["node"]
